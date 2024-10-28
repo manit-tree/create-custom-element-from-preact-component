@@ -1,18 +1,93 @@
-# vite-preact
-Development template for Preact Applicatioin
+# Create custom element from Preact component
 
-## Setup
+Mini project for learning how to create custom element from Preact's component
 
-git clone https://github.com/manit-tree/vite-preact.git [folder-name]
+### Counter.jsx
 
-## Folder Structure
+```js
+import { useState } from 'preact/hooks';
+import './counter.css';
 
-![image](https://github.com/user-attachments/assets/a36ddb37-b646-42b3-9881-06ccca5fa964)
+export default function Counter() {
+    const [count, setCount] = useState(0);
 
-## package.json
+    let increase = () => {
+        setCount(count + 1);
+    }
 
-![image](https://github.com/user-attachments/assets/4ca74efc-346f-40ec-9d97-9b1cc389b550)
+    return (
+        <div class="counter">
+            <h1>Counter : <span>{count}</span></h1>
+            <button onclick={increase}>+ INCREASE</button>
+        </div>
+    )
+}
+```
 
-## Author
+### Counter.css
 
-Mr.Manit Treeprapankit
+```css
+.counter {
+    font-family: sans-serif, tahoma;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+
+    h1 {
+        span {
+            color: red;
+        }
+    }
+
+    button {
+        padding: 0.5em 0.75em;
+    }
+}
+```
+
+### CounterComponent.jsx
+
+```js
+import { render } from 'preact';
+import Counter from './Counter.jsx';
+
+class CounterComponent extends HTMLElement {
+    connectedCallback() {
+        render(<Counter />, this);
+    }
+}
+
+customElements.define('x-counter', CounterComponent);
+```
+
+### index.html
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/x-icon" href="./favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create custom element from Preact Component</title>
+    <style>
+      #app {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        display: grid;
+        place-content: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <x-counter></x-counter>
+    </div>
+    <link rel="stylesheet" type="text/css" href="./style.css" />
+    <script src="./dist/CounterComponent.iife.js?v=1.0.1"></script>
+  </body>
+</html>
+```
