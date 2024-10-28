@@ -1,0 +1,17 @@
+.counter {
+    font-family: sans-serif, tahoma;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+
+    h1 {
+        span {
+            color: red;
+        }
+    }
+
+    button {
+        padding: 0.5em 0.75em;
+    }
+}
